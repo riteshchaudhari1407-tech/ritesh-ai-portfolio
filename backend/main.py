@@ -20,19 +20,30 @@ app = FastAPI(
 
 
 # ---------------------------------------------------------
-# CORS HARDENING
+# CORS CONFIGURATION
 # ---------------------------------------------------------
 
-raw_origins = os.getenv("FRONTEND_ORIGINS") or os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
-allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip() and o.strip() != "*"]
-if not allowed_origins:
-    allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+default_origins = [
+    "https://ritesh-ai-portfolio.vercel.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
+env_origins_str = os.getenv("CORS_ORIGINS") or os.getenv("FRONTEND_ORIGINS", "")
+if env_origins_str.strip():
+    parsed_origins = [o.strip() for o in env_origins_str.split(",") if o.strip()]
+    if "*" in parsed_origins:
+        allowed_origins = ["*"]
+    else:
+        allowed_origins = list(dict.fromkeys(default_origins + parsed_origins))
+else:
+    allowed_origins = default_origins
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
