@@ -11,7 +11,7 @@ class LLMService:
 
     @property
     def api_key(self) -> str:
-        return os.getenv("LLM_API_KEY", "").strip()
+        return (os.getenv("LLM_API_KEY") or os.getenv("GROQ_API_KEY", "")).strip()
 
     @property
     def model(self) -> str:

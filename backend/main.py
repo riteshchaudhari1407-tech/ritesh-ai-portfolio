@@ -23,8 +23,10 @@ app = FastAPI(
 # CORS HARDENING
 # ---------------------------------------------------------
 
-raw_origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+raw_origins = os.getenv("FRONTEND_ORIGINS") or os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
 allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip() and o.strip() != "*"]
+if not allowed_origins:
+    allowed_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -126,3 +128,9 @@ def chat(request_data: ChatRequest, http_request: Request):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Sorry, I couldn't process that request right now.",
         )
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
