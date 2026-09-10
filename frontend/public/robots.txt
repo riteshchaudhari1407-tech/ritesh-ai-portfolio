@@ -1,0 +1,5 @@
+# robots.txt for Ritesh Chaudhari Portfolio (RITESH.AI)
+User-agent: *
+Allow: /
+
+# Sitemap URL: Pending production domain configuration upon deployment

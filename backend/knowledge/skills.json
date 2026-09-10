@@ -1,0 +1,22 @@
+{
+  "categories": [
+    {
+      "name": "Artificial Intelligence",
+      "items": ["LLMs", "RAG", "Semantic AI", "Prompt Engineering", "AI-powered Decision Systems"]
+    },
+    {
+      "name": "Cybersecurity",
+      "items": ["Scam Detection", "Threat Intelligence", "Phishing Analysis", "Security-Focused Application Design"]
+    },
+    {
+      "name": "Development",
+      "items": ["Python", "FastAPI", "React", "TypeScript", "Full-Stack Web Development"]
+    },
+    {
+      "name": "Engineering & Tools",
+      "items": ["REST APIs", "Git", "GitHub", "System Architecture", "Intelligent Automation"]
+    }
+  ],
+  "primary_languages": ["Python", "TypeScript", "JavaScript"],
+  "primary_frameworks": ["FastAPI", "React", "Vite"]
+}

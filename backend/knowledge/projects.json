@@ -1,0 +1,57 @@
+{
+  "flagship": {
+    "name": "SATRK",
+    "tagline": "One step ahead of every scam.",
+    "type": "End-to-end cyber defense system for SIH 2026",
+    "purpose": "SATRK is an end-to-end cyber defense system built for Smart India Hackathon (SIH) 2026 to help detect and respond to modern Indian telecommunication and financial scams, especially digital arrest and authority impersonation scams.",
+    "problem_areas": [
+      "Digital Arrest / Virtual Isolation scams",
+      "Police / CBI / Cyber Cell / Supreme Court impersonation",
+      "TRAI SIM-disconnection threats",
+      "Customs / FedEx drug-seizure threats",
+      "Bank account / UPI / KYC blockade threats",
+      "AI voice cloning / deepfake voice scams",
+      "Malicious links in SMS/chat messages"
+    ],
+    "core_pipeline": "Android App (TelephonyManager / CALL_STATE_OFFHOOK / AudioRecord) -> PCM Audio over WebSocket -> FastAPI WebSocket Router -> STT Service using Groq Whisper (whisper-large-v3) -> Indian-language speech to English translation -> Parallel Analysis (Rule Engine + Groq LLM contextual reasoning + Resemble AI voice-clone detection) -> Unified Event Stream -> Dashboard UI.",
+    "multilingual_capability": "Supports Indian multilingual speech analysis during live call audio processing, including Hindi, Marathi, Gujarati, and Hinglish. Groq Whisper (whisper-large-v3) translates speech into structured English text with RMS silence filtering, regex post-filtering, and repetitive-token detection.",
+    "scam_reasoning": "Combines a deterministic Rule Engine (regex/keyword signals) and Groq LLM contextual reasoning (openai/gpt-oss-20b prompt-engineered for Indian scam typologies). Produces SAFE, WARNING, or SCAM verdicts with percentage risk score, detected scam signals, and defensive advice.",
+    "voice_deepfake_detection": "Voice authenticity analysis powered by Resemble AI API is activated when call risk reaches THREAT_THRESHOLD >= 50.0. If a possible voice clone is detected, a possible_voice_clone signal is added and overall risk score is boosted by +10%. Not every call is automatically deepfake-verified.",
+    "malicious_link_scanner": "Scans URLs extracted from SMS/chat messages using Google Safe Browsing API v4 across threat categories: MALWARE, SOCIAL_ENGINEERING, UNWANTED_SOFTWARE, and POTENTIALLY_HARMFUL_APPLICATION.",
+    "performance_architecture": "Designed as a low-latency asynchronous pipeline with parallel AI processing (AsyncGroq, httpx.AsyncClient, asyncio.gather) and strict 3.5-second upstream timeouts for external AI calls with graceful degradation to Rule Engine results. Audio is streamed only during active calls.",
+    "feedback_loop": "Human-in-the-loop Yes/No feedback mechanism on high-risk alerts logged to refine rule weights, prompt calibration, and detection behavior (model is not automatically retrained per event).",
+    "tech_stack": {
+      "frontend": ["React 18", "TypeScript", "Vite", "Tailwind CSS", "Lucide Icons", "WebSocket Web API"],
+      "backend": ["Python 3.12", "FastAPI", "Uvicorn", "Pydantic v2", "httpx", "asyncio", "SentenceTransformers"],
+      "android": ["Kotlin", "Android SDK API 26+", "TelephonyManager", "AudioRecord", "OkHttp WebSockets"],
+      "ai_external_apis": ["Groq Async SDK", "whisper-large-v3", "openai/gpt-oss-20b", "Resemble AI", "Google Safe Browsing API v4"]
+    },
+    "ritesh_role": "Ritesh Chaudhari served as the Lead AI Engineer, Cybersecurity Developer, and System Architect for SATRK. He designed the low-latency WebSocket PCM audio streaming pipeline, integrated Groq Whisper (whisper-large-v3) STT with RMS silence and repetition filtering, built the dual-engine scam reasoning system (Rule Engine + Groq LLM), implemented Resemble AI voice deepfake detection, and integrated Google Safe Browsing URL scanning.",
+    "engineering_challenges": [
+      "Android VOICE_CALL recording restrictions: Bypassed using TelephonyManager (CALL_STATE_OFFHOOK) and microphone PCM AudioRecord streaming strictly during active calls.",
+      "Whisper STT hallucination & repetition loops: Eliminated using RMS silence threshold filtering and regex post-processing.",
+      "Upstream API stalls/timeouts: Solved by implementing strict 3.5s timeouts with asyncio.gather parallel execution and graceful fallback to deterministic Rule Engine.",
+      "Code-switched Indian speech: Accurately transcribed and translated Indian multilingual speech (Hindi, Marathi, Gujarati, Hinglish) into structured English scam signals.",
+      "User Privacy & Security: Audio is streamed ephemerally over WebSockets only during active calls without persistent raw audio recording."
+    ],
+    "repository_structure": {
+      "android": ["MainActivity.kt", "CallMonitorService.kt", "CallWebSocketClient.kt"],
+      "backend": ["main.py", "config.py", "container.py", "routers/calls.py", "routers/analysis.py", "routers/scans.py", "services/stt_service.py", "services/groq_service.py", "services/rule_engine_service.py", "services/voice_authenticity_service.py", "services/semantic_service.py", "services/analysis_service.py"],
+      "frontend": ["App.tsx", "components/UnifiedCallProtection.tsx", "components/ThreatScanner.tsx", "components/CommandCenter.tsx", "services/api.ts", "services/callSocket.ts"]
+    }
+  },
+  "secondary_projects": [
+    {
+      "name": "RITESH.AI",
+      "type": "Personal AI Portfolio & Assistant",
+      "description": "Personal AI-powered portfolio combining a React/TypeScript frontend with an AI assistant to explain projects, skills, and cybersecurity work.",
+      "technologies": ["AI", "RAG", "React", "TypeScript", "FastAPI"]
+    },
+    {
+      "name": "AI Lab",
+      "type": "Experimental AI Sandbox",
+      "description": "Collection of experiments around intelligent automation, LLM workflows, cybersecurity analysis, and developer tooling.",
+      "technologies": ["LLM", "Python", "Automation", "Semantic AI"]
+    }
+  ]
+}
