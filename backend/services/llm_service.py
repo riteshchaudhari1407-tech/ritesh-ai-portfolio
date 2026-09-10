@@ -1,7 +1,7 @@
 import json
 import os
 import urllib.request
-from typing import Optional
+from typing import List, Optional
 
 
 class LLMService:
