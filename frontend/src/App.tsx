@@ -12,9 +12,7 @@ import {
   Code2,
   Copy,
   Cpu,
-  Download,
   ExternalLink,
-  FileText,
   GitBranch,
   Layers,
   Mail,
@@ -48,8 +46,6 @@ const LINKEDIN_URL =
 
 const EMAIL =
   "https://mail.google.com/mail/?view=cm&fs=1&to=riteshchaudhari6612@gmail.com";
-
-const RESUME_URL = "/resume.pdf";
 
 /* =========================================================
    TYPES
@@ -665,18 +661,6 @@ function renderFormattedText(text: string) {
               <BrainCircuit size={15} />
               Ask my AI
             </button>
-
-            <a
-              href={RESUME_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="resume-button"
-              title="View / Download Resume (PDF)"
-            >
-              <FileText size={15} />
-              Resume
-              <Download size={13} />
-            </a>
           </div>
 
           <div className="social-row">
@@ -1745,15 +1729,6 @@ function renderFormattedText(text: string) {
               >
                 LinkedIn
               </a>
-
-              <a
-                href={RESUME_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="View Resume PDF"
-              >
-                Resume (PDF)
-              </a>
             </div>
           </div>
         </div>
@@ -1800,15 +1775,6 @@ function renderFormattedText(text: string) {
               aria-label="Send Email"
             >
               Email
-            </a>
-            <span>•</span>
-            <a
-              href={RESUME_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View Resume PDF"
-            >
-              Resume
             </a>
           </div>
 
@@ -1973,15 +1939,32 @@ function renderFormattedText(text: string) {
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="chat-thinking"
+                  className="chat-thinking-box"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                    padding: "10px 14px",
+                    borderRadius: "12px",
+                    background: "rgba(139, 92, 246, 0.07)",
+                    border: "1px solid rgba(139, 92, 246, 0.18)",
+                    alignSelf: "flex-start",
+                    maxWidth: "92%",
+                    margin: "6px 0"
+                  }}
                 >
-                  <BrainCircuit size={14} style={{ color: "var(--lavender)" }} />
-                  <span>Ritesh AI is thinking</span>
-                  <div className="chat-thinking-dots">
-                    <span className="chat-thinking-dot" />
-                    <span className="chat-thinking-dot" />
-                    <span className="chat-thinking-dot" />
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <BrainCircuit size={14} style={{ color: "var(--lavender)" }} />
+                    <span style={{ fontSize: "12px", fontWeight: 600 }}>Ritesh AI is thinking</span>
+                    <div className="chat-thinking-dots">
+                      <span className="chat-thinking-dot" />
+                      <span className="chat-thinking-dot" />
+                      <span className="chat-thinking-dot" />
+                    </div>
                   </div>
+                  <span style={{ fontSize: "10px", color: "var(--muted)", paddingLeft: "22px" }}>
+                    ⚡ Waking up AI server (cold start) — please wait a moment...
+                  </span>
                 </motion.div>
               )}
 
@@ -1997,7 +1980,7 @@ function renderFormattedText(text: string) {
                   onChange={(event) => setInput(event.target.value)}
                   onKeyDown={handleChatKeyDown}
                   placeholder={
-                    chatLoading ? "Ritesh AI is thinking..." : "Ask something about Ritesh..."
+                    chatLoading ? "Waking up AI server (cold start)..." : "Ask something about Ritesh..."
                   }
                   disabled={chatLoading}
                   aria-label="Ask a question"
